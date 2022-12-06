@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Slay the Monster</title>
 
+    <!-- Web Icon -->
+    <link
+      rel="icon"
+      href="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/320/apple/325/cloud-with-rain_1f327-fe0f.png"
+    />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Jost:wght@400;700&display=swap"
       rel="stylesheet"
@@ -16,26 +22,37 @@
   </head>
   <body>
     <header>
-      <h1>Monster Slayer</h1>
+      <h1>👾 Slay the Monster 👾</h1>
     </header>
     <div id="game">
       <section id="monster" class="container">
         <h2>Monster Health</h2>
         <div class="healthbar">
-          <div class="healthbar__value"></div>
+          <div class="healthbar__value" :style="monsterBarStyle"></div>
         </div>
       </section>
       <section id="player" class="container">
         <h2>Your Health</h2>
         <div class="healthbar">
-          <div class="healthbar__value"></div>
+          <div class="healthbar__value" :style="playerBarStyle"></div>
         </div>
       </section>
-      <section id="controls">
-        <button>ATTACK</button>
-        <button>SPECIAL ATTACK</button>
-        <button>HEAL</button>
-        <button>SURRENDER</button>
+
+      <section class="container" v-if="winner">
+        <h2>Game Over!</h2>
+        <h3 v-if="winner === 'player'">Player win!</h3>
+        <h3 v-else-if="winner === 'monster'">Monster win!</h3>
+        <h3 v-else>It's a draw!</h3>
+        <button @click="startGame">Start New Game</button>
+      </section>
+
+      <section id="controls" v-else>
+        <button @click="attackMonster">ATTACK 🔪</button>
+        <button @click="specialAttackMonster" :disabled="specialAttackRound">
+          SPECIAL ATTACK 🪓
+        </button>
+        <button @click="healPlayer">HEAL ‍🩹</button>
+        <button @click="surrender">SURRENDER 😞</button>
       </section>
       <section id="log" class="container">
         <h2>Battle Log</h2>
